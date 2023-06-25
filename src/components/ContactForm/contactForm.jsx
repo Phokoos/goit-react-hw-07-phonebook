@@ -1,11 +1,28 @@
 import css from './contactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/phonebook/phonebookSlice';
-import { phonebookContactsSelector } from 'redux/phonebook/selectors';
+
+import {
+  addContactsThunk,
+  fetchContactsThunk,
+} from '../../redux/phonebookWithApi/thunks';
+import { useEffect } from 'react';
 
 const ContactForm = () => {
-  const contactsState = useSelector(phonebookContactsSelector);
+  const contactsState = useSelector(state => state.contacts.contacts.items);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContactsThunk());
+  }, [dispatch]);
+
+  const handleDispatchAddContacts = (name, phone) => {
+    dispatch(
+      addContactsThunk({
+        name: name,
+        phone: phone,
+      })
+    );
+  };
 
   const formSubmit = action => {
     action.preventDefault();
@@ -20,12 +37,7 @@ const ContactForm = () => {
       return alert(`Name ${name} is already here`);
     }
 
-    dispatch(
-      addContact({
-        name: name,
-        number: action.target.number.value,
-      })
-    );
+    handleDispatchAddContacts(name, action.target.number.value);
 
     action.currentTarget.reset();
   };

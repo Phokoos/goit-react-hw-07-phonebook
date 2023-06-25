@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import css from './filter.module.css';
 import { phonebookFilterSelector } from 'redux/phonebook/selectors';
-import { setFilter } from 'redux/phonebook/phonebookSlice';
+import { setFilter } from 'redux/phonebookWithApi/contactsSlice';
+import { contactsFilterSelector } from 'redux/phonebookWithApi/selectors';
+// import { setFilter } from 'redux/phonebook/phonebookSlice';
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const filterState = useSelector(phonebookFilterSelector);
+  const filterState = useSelector(contactsFilterSelector);
 
   const handleInputChange = event => {
     dispatch(setFilter(event.target.value));
