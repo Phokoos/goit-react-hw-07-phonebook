@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { addContactsThunk } from 'redux/phonebookWithApi/thunks'
 
 const BASE_URL = 'https://6497fa159543ce0f49e18b94.mockapi.io/contacts'
 
