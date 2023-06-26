@@ -2,6 +2,7 @@ import Loader from 'components/Loader/loader';
 import css from './contactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  contactsError,
   contactsListSelector,
   contactsLoading,
 } from 'redux/phonebookWithApi/selectors';
@@ -9,6 +10,7 @@ import { deleteContactsThunk } from 'redux/phonebookWithApi/thunks';
 
 const ContactList = () => {
   const contactsState = useSelector(contactsListSelector);
+  const contactsErrorState = useSelector(contactsError);
   const isLoading = useSelector(contactsLoading);
 
   const dispatch = useDispatch();
@@ -19,8 +21,10 @@ const ContactList = () => {
 
   return (
     <ul className={css.contacts__list}>
+      {contactsErrorState && <div>What`s happen wrong, please try again</div>}
       {isLoading && <Loader />}
-      {!isLoading &&
+      {!contactsErrorState &&
+        !isLoading &&
         contactsState.length > 0 &&
         contactsState.map(data => {
           return (

@@ -8,3 +8,5 @@ export const contactsListSelector = state => {
 export const contactsLoading = state => state.contacts.contacts.isLoading
 
 export const contactsFilterSelector = (state) => state.contacts.filter
+
+export const contactsError = state => state.contacts.contacts.error
