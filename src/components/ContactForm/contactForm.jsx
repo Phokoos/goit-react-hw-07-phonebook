@@ -1,6 +1,5 @@
 import css from './contactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
   addContactsThunk,
   fetchContactsThunk,

@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import css from './filter.module.css';
 import { setFilter } from 'redux/phonebookWithApi/contactsSlice';
 import { contactsFilterSelector } from 'redux/phonebookWithApi/selectors';
-// import { setFilter } from 'redux/phonebook/phonebookSlice';
 
 const Filter = () => {
   const dispatch = useDispatch();
