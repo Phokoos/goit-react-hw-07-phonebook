@@ -3,27 +3,27 @@ import { initialState } from './initialState';
 import { addContactsThunk, deleteContactsThunk, fetchContactsThunk } from './thunks';
 
 const handlePending = (state) => {
-	state.isLoading = true
+	state.contacts.isLoading = true
 	state.error = ''
 }
 
 const handleFulfilledContacts = (state, action) => {
-	state.isLoading = false
+	state.contacts.isLoading = false
 	state.contacts.items = action.payload.data
 }
 
 const handleFulfilledAddContact = (state, action) => {
-	state.isLoading = false
+	state.contacts.isLoading = false
 	state.contacts.items.push(action.payload.data)
 }
 
 const handleFulfilledDeleteContact = (state, action) => {
-	state.isLoading = false
+	state.contacts.isLoading = false
 	state.contacts.items = state.contacts.items.filter(item => item.id !== action.payload.data.id)
 }
 
 const handleRejected = (state, { payload }) => {
-	state.isLoading = false
+	state.contacts.isLoading = false
 	state.error = payload
 }
 
@@ -39,15 +39,17 @@ const contactsSlice = createSlice({
 		}
 	},
 	extraReducers: (builder) => {
-		builder.addCase(fetchContactsThunk.pending, handlePending)
-			.addCase(fetchContactsThunk.fulfilled, handleFulfilledContacts)
-			.addCase(fetchContactsThunk.rejected, handleRejected)
-			.addCase(addContactsThunk.pending, handlePending)
+
+		builder.addCase(fetchContactsThunk.fulfilled, handleFulfilledContacts)
 			.addCase(addContactsThunk.fulfilled, handleFulfilledAddContact)
-			.addCase(addContactsThunk.rejected, handleRejected)
-			.addCase(deleteContactsThunk.pending, handlePending)
 			.addCase(deleteContactsThunk.fulfilled, handleFulfilledDeleteContact)
-			.addCase(deleteContactsThunk.rejected, handleRejected)
+
+			.addMatcher((action) => {
+				return action.type.endsWith("/pending")
+			}, handlePending)
+			.addMatcher((action) => {
+				return action.type.endsWith("/rejected")
+			}, handleRejected)
 	}
 })
 
